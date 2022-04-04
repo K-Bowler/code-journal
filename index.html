@@ -10,14 +10,69 @@
     crossorigin="anonymous"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
     integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Proza+Libre&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header>
+  <header class="purple-background">
+    <div class="container">
+      <div class="row">
+        <div class="col-full">
+          <h3 class="header-text">Code Journal</h3>
+        </div>
+      </div>
+    </div>
   </header>
   <main>
+    <div class="container">
+      <div data-view="entry-form">
+        <form>
+          <div class="row">
+            <div class="col-full">
+              <h1>New Entry</h1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-full col-half">
+              <img class="entry-img" src="images/placeholder-image-square.jpg">
+            </div>
+            <div class="col-full col-half">
+              <div class="row">
+                <label for="input-title" class="entry-label">Title</label>
+              </div>
+              <div class="row">
+                <input type="text" id="input-title" class="entry-input" required>
+              </div>
+              <div class="row">
+                <label for="input-img" class="entry-label">Photo URL</label>
+              </div>
+              <div class="row">
+                <input type="text" id="input-img" class="entry-input" required>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-full">
+              <div class="row">
+                <label for="input-notes" class="entry-label">Notes</label>
+              </div>
+              <div class="row">
+                <textarea id="input-notes" class="entry-input-text" rows="6" required></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-full save-col">
+              <button class="save-btn">SAVE</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
