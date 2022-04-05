@@ -1,9 +1,9 @@
 /* global data */
 /* exported data */
 
+var $form = document.querySelector('form');
 var $imgInput = document.querySelector('#input-img');
 var $img = document.querySelector('.entry-img');
-var $saveBtn = document.querySelector('.save-btn');
 
 function photoUrlInput(event) {
   var $imgUrl = document.querySelector('#input-img').value;
@@ -11,7 +11,17 @@ function photoUrlInput(event) {
 }
 $imgInput.addEventListener('input', photoUrlInput);
 
-function saveContent() {
-
+function saveContent(event) {
+  event.preventDefault();
+  var valuesObject = {
+    title: $form.elements.title.value,
+    url: $form.elements.url.value,
+    notes: $form.elements.notes.value,
+    entryId: data.nextEntryId
+  };
+  data.nextEntryId++;
+  data.entries.unshift(valuesObject);
+  $form.reset();
+  $img.setAttribute('src', 'images/placeholder-image-square.jpg');
 }
-$saveBtn.addEventListener('click', saveContent);
+$form.addEventListener('submit', saveContent);
