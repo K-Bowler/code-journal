@@ -20,7 +20,7 @@ function saveContent(event) {
     entryId: data.nextEntryId
   };
   data.nextEntryId++;
-  data.entries.unshift(valuesObject);
+  data.unshift(valuesObject);
   $form.reset();
   $img.setAttribute('src', 'images/placeholder-image-square.jpg');
 }
