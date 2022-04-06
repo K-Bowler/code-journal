@@ -51,6 +51,7 @@ function displayEntries(entries) {
   $row.appendChild($columns2);
   $columns2.appendChild($entryH2);
   $columns2.appendChild($entryP);
+  return $li;
 }
 
 var $ul = document.querySelector('ul');
@@ -58,3 +59,18 @@ for (var i = 0; i < data.entries.length; i++) {
   var buildEntries = displayEntries(data.entries[i]);
   $ul.appendChild(buildEntries);
 }
+
+var $views = document.querySelectorAll('div[data-view]');
+function showView(viewName) {
+  for (var i = 0; i < $views.length; i++) {
+    if ($views[i].getAttribute('data-view') === viewName) {
+      $views[i].classList.remove('hidden');
+    } else $views[i].classList.add('hidden');
+  }
+}
+document.addEventListener('click', function (event) {
+  if (event.target.tagName === 'A') {
+    var viewName = event.target.getAttribute('data-view');
+    showView(viewName);
+  }
+});
