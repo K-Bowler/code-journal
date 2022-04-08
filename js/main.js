@@ -14,7 +14,6 @@ function photoUrlInput(event) {
 $imgInput.addEventListener('input', photoUrlInput);
 
 function saveContent(event) {
-  event.preventDefault();
   var valuesObject = {
     title: $form.elements.title.value,
     url: $form.elements.url.value,
@@ -71,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     var buildEntries = displayEntries(data.entries[i]);
     $ul.appendChild(buildEntries);
   }
+  showView(data.view);
 });
 
 var $views = document.querySelectorAll('div[data-view]');
@@ -82,6 +82,7 @@ function showView(viewName) {
       $views[i].classList.add('hidden');
     }
   }
+  data.view = viewName;
 }
 
 document.addEventListener('click', function (event) {
