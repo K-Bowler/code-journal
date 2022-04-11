@@ -3,6 +3,16 @@ body {
   background-color: rgb(240, 240, 240);
 }
 
+i {
+  margin-top: 25px;
+}
+
+.heading-display {
+  display: flex;
+  flex-basis: calc(100% / 2);
+  justify-content: space-between;
+}
+
 .open-font {
   font-family: "open sans", sans-serif;
 }
@@ -88,6 +98,11 @@ textarea:focus {
   align-items: center;
   height: 35px;
   width: 68px;
+}
+
+.entry-heading {
+  display: inline;
+  padding-right: 70%;
 }
 
 .text-center {

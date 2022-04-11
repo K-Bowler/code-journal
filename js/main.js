@@ -44,8 +44,12 @@ function displayEntries(entries) {
   $entriesImgs.setAttribute('src', entries.url);
   var $columns2 = document.createElement('div');
   $columns2.setAttribute('class', 'col-full col-half');
+  var $entryHeader = document.createElement('div');
+  $entryHeader.setAttribute('class', 'heading-display');
   var $entryH2 = document.createElement('h2');
   $entryH2.textContent = entries.title;
+  var $icon = document.createElement('i');
+  $icon.setAttribute('class', 'fas fa-pen');
   var $entryP = document.createElement('p');
   $entryP.setAttribute('class', 'open-font');
   $entryP.textContent = entries.notes;
@@ -55,7 +59,9 @@ function displayEntries(entries) {
   $columns.appendChild($imgContainer);
   $imgContainer.appendChild($entriesImgs);
   $row.appendChild($columns2);
-  $columns2.appendChild($entryH2);
+  $columns2.appendChild($entryHeader);
+  $entryHeader.appendChild($entryH2);
+  $entryHeader.appendChild($icon);
   $columns2.appendChild($entryP);
   return $li;
 }
