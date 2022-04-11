@@ -46,6 +46,8 @@ function displayEntries(entries) {
   $columns2.setAttribute('class', 'col-full col-half');
   var $entryH2 = document.createElement('h2');
   $entryH2.textContent = entries.title;
+  var $icon = document.createElement('i');
+  $icon.setAttribute('class', 'fas fa-pen');
   var $entryP = document.createElement('p');
   $entryP.setAttribute('class', 'open-font');
   $entryP.textContent = entries.notes;
@@ -56,6 +58,7 @@ function displayEntries(entries) {
   $imgContainer.appendChild($entriesImgs);
   $row.appendChild($columns2);
   $columns2.appendChild($entryH2);
+  $columns2.appendChild($icon);
   $columns2.appendChild($entryP);
   return $li;
 }
