@@ -50,6 +50,7 @@ function displayEntries(entries) {
   $entryH2.textContent = entries.title;
   var $icon = document.createElement('i');
   $icon.setAttribute('class', 'fas fa-pen');
+  $icon.setAttribute('data-entry-id', entries.entryId);
   var $entryP = document.createElement('p');
   $entryP.setAttribute('class', 'open-font');
   $entryP.textContent = entries.notes;
@@ -96,4 +97,17 @@ document.addEventListener('click', function (event) {
     var viewName = event.target.getAttribute('data-view');
     showView(viewName);
   }
+});
+
+$ul.addEventListener('click', function (event) {
+  if (event.target.tagName === 'I') {
+    showView('entry-form');
+  }
+  var entryId = parseInt(event.target.getAttribute('data-entry-id'));
+  for (var i = 0; i < data.entries.length; i++) {
+    if (data.entries[i].entryId === entryId) {
+      data.editing = data.entries[i];
+    }
+  }
+  return data.editing;
 });
