@@ -7,6 +7,10 @@ i {
   margin-top: 25px;
 }
 
+i:hover {
+  cursor: pointer;
+}
+
 .heading-display {
   display: flex;
   flex-basis: calc(100% / 2);
@@ -24,6 +28,10 @@ i {
 .header-text {
   color: white;
   font-weight: 400;
+}
+
+.tab:hover {
+  cursor: pointer;
 }
 
 .header-org {
@@ -90,6 +98,10 @@ textarea:focus {
   font-size: 16px;
   height: 35px;
   width: 80px;
+}
+
+.save-btn:hover {
+  cursor: pointer;
 }
 
 .a-btn {

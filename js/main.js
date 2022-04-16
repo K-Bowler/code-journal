@@ -1,13 +1,12 @@
 /* global data */
 /* exported data */
 
-var $form = document.querySelector('form');
-var $titleInput = document.querySelector('#input-title');
+var $form = document.querySelector('#entry-form');
 var $imgInput = document.querySelector('#input-img');
-var $notesInput = document.querySelector('#input-notes');
 var $img = document.querySelector('.entry-img');
 var $ul = document.querySelector('ul');
 var $noEntries = document.querySelector('#no-entries');
+var $formHeader = document.querySelector('#new-entry');
 
 function photoUrlInput(event) {
   var $imgUrl = document.querySelector('#input-img').value;
@@ -27,10 +26,9 @@ function saveContent(event) {
     data.nextEntryId++;
     data.entries.unshift(valuesObject);
     $form.reset();
-    $img.setAttribute('src', 'images/placeholder-image-square.jpg');
     var tree = displayEntries(valuesObject);
     $ul.prepend(tree);
-    showView('entries');
+    $noEntries.classList.add('hidden');
   } else {
     var editValuesObject = {
       title: $form.elements.title.value,
@@ -38,19 +36,19 @@ function saveContent(event) {
       notes: $form.elements.notes.value,
       entryId: data.editing.entryId
     };
-    var $domLi = document.querySelectorAll('li');
-    for (var i = 0; i < $domLi.length; i++) {
-      var liId = parseInt($domLi[i].getAttribute('data-li-id'));
-      if (liId === editValuesObject.entryId) {
-        var updateTree = displayEntries(editValuesObject);
-        $domLi[i].replaceWith(updateTree);
-        if (editValuesObject === data.entries) {
-          data.entries.splice(editValuesObject);
-        }
-        showView('entries');
+    data.editing = null;
+    clearElement($ul);
+    for (var i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === editValuesObject.entryId) {
+        data.entries[i] = editValuesObject;
       }
+      var $entry = displayEntries(data.entries[i]);
+      $ul.appendChild($entry);
     }
   }
+  $form.reset();
+  $img.setAttribute('src', 'images/placeholder-image-square.jpg');
+  showView('entries');
 }
 
 $form.addEventListener('submit', saveContent);
@@ -93,12 +91,10 @@ function displayEntries(entries) {
 }
 
 document.addEventListener('DOMContentLoaded', function (event) {
+  if (data.entries.length) {
+    $noEntries.classList.add('hidden');
+  }
   for (var i = 0; i < data.entries.length; i++) {
-    if (data.nextEntryId === 1) {
-      $noEntries.classList.remove('hidden');
-    } else {
-      $noEntries.classList.add('hidden');
-    }
     var buildEntries = displayEntries(data.entries[i]);
     $ul.appendChild(buildEntries);
   }
@@ -107,6 +103,17 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
 var $views = document.querySelectorAll('div[data-view]');
 function showView(viewName) {
+  if (viewName === 'entry-form') {
+    if (data.editing === null) {
+      $formHeader.textContent = 'New Entry';
+    } else {
+      $formHeader.textContent = 'Edit Entry';
+    }
+  } else if (viewName === 'entries') {
+    data.editing = null;
+    $form.reset();
+    $img.setAttribute('src', 'images/placeholder-image-square.jpg');
+  }
   for (var i = 0; i < $views.length; i++) {
     if ($views[i].getAttribute('data-view') === viewName) {
       $views[i].classList.remove('hidden');
@@ -125,18 +132,24 @@ document.addEventListener('click', function (event) {
 });
 
 $ul.addEventListener('click', function (event) {
-  if (event.target.tagName === 'I') {
-    showView('entry-form');
-  }
+  if (event.target.tagName !== 'I') return;
   var entryId = parseInt(event.target.getAttribute('data-entry-id'));
   for (var i = 0; i < data.entries.length; i++) {
     if (data.entries[i].entryId === entryId) {
       data.editing = data.entries[i];
-      $titleInput.setAttribute('value', data.editing.title);
-      $imgInput.setAttribute('value', data.editing.url);
+      $form['input-title'].value = data.editing.title;
+      $form['input-img'].value = data.editing.url;
       $img.setAttribute('src', data.editing.url);
-      $notesInput.textContent = data.editing.notes;
+      $form['input-notes'].value = data.editing.notes;
+      break;
     }
   }
+  showView('entry-form');
   return data.editing;
 });
+
+function clearElement(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+}
