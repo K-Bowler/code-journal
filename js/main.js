@@ -2,7 +2,9 @@
 /* exported data */
 
 var $form = document.querySelector('form');
+var $titleInput = document.querySelector('#input-title');
 var $imgInput = document.querySelector('#input-img');
+var $notesInput = document.querySelector('#input-notes');
 var $img = document.querySelector('.entry-img');
 var $ul = document.querySelector('ul');
 var $noEntries = document.querySelector('#no-entries');
@@ -14,25 +16,48 @@ function photoUrlInput(event) {
 $imgInput.addEventListener('input', photoUrlInput);
 
 function saveContent(event) {
-  var valuesObject = {
-    title: $form.elements.title.value,
-    url: $form.elements.url.value,
-    notes: $form.elements.notes.value,
-    entryId: data.nextEntryId
-  };
-  data.nextEntryId++;
-  data.entries.unshift(valuesObject);
-  $form.reset();
-  $img.setAttribute('src', 'images/placeholder-image-square.jpg');
-  var tree = displayEntries(valuesObject);
-  $ul.prepend(tree);
-  showView('entries');
+  event.preventDefault();
+  if (data.editing === null) {
+    var valuesObject = {
+      title: $form.elements.title.value,
+      url: $form.elements.url.value,
+      notes: $form.elements.notes.value,
+      entryId: data.nextEntryId
+    };
+    data.nextEntryId++;
+    data.entries.unshift(valuesObject);
+    $form.reset();
+    $img.setAttribute('src', 'images/placeholder-image-square.jpg');
+    var tree = displayEntries(valuesObject);
+    $ul.prepend(tree);
+    showView('entries');
+  } else {
+    var editValuesObject = {
+      title: $form.elements.title.value,
+      url: $form.elements.url.value,
+      notes: $form.elements.notes.value,
+      entryId: data.editing.entryId
+    };
+    var $domLi = document.querySelectorAll('li');
+    for (var i = 0; i < $domLi.length; i++) {
+      var liId = parseInt($domLi[i].getAttribute('data-li-id'));
+      if (liId === editValuesObject.entryId) {
+        var updateTree = displayEntries(editValuesObject);
+        $domLi[i].replaceWith(updateTree);
+        if (editValuesObject === data.entries) {
+          data.entries.splice(editValuesObject);
+        }
+        showView('entries');
+      }
+    }
+  }
 }
 
 $form.addEventListener('submit', saveContent);
 
 function displayEntries(entries) {
   var $li = document.createElement('li');
+  $li.setAttribute('data-li-id', entries.entryId);
   var $row = document.createElement('div');
   $row.setAttribute('class', 'row');
   var $columns = document.createElement('div');
@@ -107,6 +132,10 @@ $ul.addEventListener('click', function (event) {
   for (var i = 0; i < data.entries.length; i++) {
     if (data.entries[i].entryId === entryId) {
       data.editing = data.entries[i];
+      $titleInput.setAttribute('value', data.editing.title);
+      $imgInput.setAttribute('value', data.editing.url);
+      $img.setAttribute('src', data.editing.url);
+      $notesInput.textContent = data.editing.notes;
     }
   }
   return data.editing;
