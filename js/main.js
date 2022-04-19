@@ -7,6 +7,11 @@ var $img = document.querySelector('.entry-img');
 var $ul = document.querySelector('ul');
 var $noEntries = document.querySelector('#no-entries');
 var $formHeader = document.querySelector('#new-entry');
+var $deleteAnchor = document.querySelector('.delete-entry');
+var $modal = document.querySelector('.modal-background');
+var $cancelBtn = document.querySelector('.cancel-btn');
+var $footerBtns = document.querySelector('#footer-btns');
+var $confirmBtn = document.querySelector('.confirm-btn');
 
 function photoUrlInput(event) {
   var $imgUrl = document.querySelector('#input-img').value;
@@ -106,8 +111,15 @@ function showView(viewName) {
   if (viewName === 'entry-form') {
     if (data.editing === null) {
       $formHeader.textContent = 'New Entry';
+      $noEntries.classList.add('hidden');
+      $footerBtns.classList.remove('save-col');
+      $footerBtns.classList.add('save-col-end');
+      $deleteAnchor.classList.add('hidden');
     } else {
       $formHeader.textContent = 'Edit Entry';
+      $footerBtns.classList.add('save-col');
+      $footerBtns.classList.remove('save-col-end');
+      $deleteAnchor.classList.remove('hidden');
     }
   } else if (viewName === 'entries') {
     data.editing = null;
@@ -136,6 +148,7 @@ $ul.addEventListener('click', function (event) {
   var entryId = parseInt(event.target.getAttribute('data-entry-id'));
   for (var i = 0; i < data.entries.length; i++) {
     if (data.entries[i].entryId === entryId) {
+      $deleteAnchor.classList.remove('hiiden');
       data.editing = data.entries[i];
       $form['input-title'].value = data.editing.title;
       $form['input-img'].value = data.editing.url;
@@ -153,3 +166,45 @@ function clearElement(element) {
     element.removeChild(element.firstChild);
   }
 }
+
+$deleteAnchor.addEventListener('click', function (event) {
+  event.stopPropagation();
+  if (event.target === $deleteAnchor) {
+    $modal.classList.remove('hidden');
+    showView('entry-form');
+  } else {
+    $modal.classList.add('hidden');
+    showView('entry-form');
+  }
+});
+
+$deleteAnchor.addEventListener('click', function (event) {
+  event.stopPropagation();
+  if (event.target === $deleteAnchor) {
+    $modal.classList.remove('hidden');
+    showView('entry-form');
+  } else {
+    $modal.classList.add('hidden');
+    showView('entry-form');
+  }
+});
+
+$cancelBtn.addEventListener('click', function (event) {
+  event.stopPropagation();
+  if (event.target === $cancelBtn) {
+    $modal.classList.add('hidden');
+  }
+});
+
+$confirmBtn.addEventListener('click', function (event) {
+  var liSelector = 'li[data-li-id="' + data.editing.entryId + '"]';
+  var $liElement = document.querySelector(liSelector);
+  $liElement.remove();
+  for (var i = 0; i < data.entries.length; i++) {
+    if (data.entries[i].entryId === data.editing.entryId) {
+      data.entries.splice(i, 1);
+    }
+  }
+  showView('entries');
+  $modal.classList.add('hidden');
+});
