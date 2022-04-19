@@ -91,6 +91,12 @@ textarea:focus {
   align-items: center;
 }
 
+.save-col-end {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
 .save-btn {
   color: white;
   background-color: rgb(86, 43, 129);
@@ -108,6 +114,14 @@ textarea:focus {
 
 .delete-entry {
   color: red;
+  background-color: transparent;
+  border: none;
+  text-decoration: underline;
+  font-size: 16px;
+}
+
+.delete-entry:hover {
+  cursor: pointer;
 }
 
 .a-btn {
@@ -184,6 +198,10 @@ textarea:focus {
   background-color: rgb(182, 182, 182);
 }
 
+.cancel-btn:hover {
+  cursor: pointer;
+}
+
 .confirm-btn {
   width: 5rem;
   height: 2rem;
@@ -192,6 +210,10 @@ textarea:focus {
   border-radius: 5px;
   color: white;
   background-color: rgb(220, 38, 38);
+}
+
+.confirm-btn:hover {
+  cursor: pointer;
 }
 
 @media screen and (min-width: 768px) {
